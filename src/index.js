@@ -1,49 +1,28 @@
 import dotenv from "dotenv";
+import { app } from "./app.js"; // ✅ Import the app with routes
 import connectDB from "./db/index.js";
 
+dotenv.config({ path: "./env" });
 
+const startServer = async () => {
+  try {
+    // Connect to MongoDB
+    await connectDB();
 
-dotenv.config({
-  path: './env'
-})
+    // Handle Express errors
+    app.on("error", (error) => {
+      console.error("Express error:", error);
+      throw error;
+    });
 
-
-connectDB()
-  .then(() => {
+    // Start listening
     const port = process.env.PORT || 8000;
     app.listen(port, () => {
-      console.log(`Server is running at port :
-        ${port}`)
-    })
-  })
-  .catch((error) => {
-    console.log("mongoose DB failed !!!", error);
-  })
-
-
-
-/*
-import express from "express"
-const app = express()
-
-( async ()  =>  {
-  try {
-    await mongoose.connect(`${process.env.MONGO_URI}/$
-      {DB_NAME}`)
-
-      // express part 
-      app.on("error", (error) => {
-      console.error("ERROR: ", error); // Using console.error is more standard for errors
-      throw error;
-      //if it is getting error in express part connection
-    })
-    app.listen(process.env.PORT, () => {
-      console.log(`App is listening to port $
-        {process.env.PORT}`);
-    })
+      console.log(`✅ Server is running at port: ${port}`);
+    });
   } catch (error) {
-    console.error("ERROR:", error)  
-    throw error
+    console.error("❌ Failed to start server:", error);
   }
-})()
-*/
+};
+
+startServer();
