@@ -9,7 +9,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET // Click 'View API Keys' above to copy your API secret
 });
 
-const uploadonCloudinary = async (localfilepath) => {
+const uploadOnCloudinary = async (localfilepath) => {
     try {
         if (!localfilepath) return null;
         // upload the file on cloudinary
@@ -22,11 +22,11 @@ const uploadonCloudinary = async (localfilepath) => {
         return response;
     } catch (error) {
         fs.unlinkSync(localfilepath) //remove the locally saved file as the upload opertion got
-
+        return null;
     }
 }
 
-export { uploadonCloudinary };
+export { uploadOnCloudinary };
 
 /*
 cloudinary.v2.uploader.upload("sample.jpg", { Public_id: "sample" },
