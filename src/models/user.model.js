@@ -53,15 +53,15 @@ const userSchema = new Schema(
 )
 
 userSchema.pre('save', async function (next) {
-    if (!this.isModified('Password')) return next();
+    if (!this.isModified('password')) return next();
 
-    this.Password = await bcrypt.hash(this.Password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
     next()
 })
 
 userSchema.methods.comparePassword = async function
-    (Password) {
-    return await bcrypt.compare(Password, this.Password)
+    (password) {
+    return await bcrypt.compare(password, this.password)
 }
 
 userSchema.methods.generateAccessToken = function () {
